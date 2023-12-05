@@ -1,0 +1,95 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class BankApplication {
+    private static double balance = 0;
+
+    public static void main(String[] args) {
+        // Create the main window (JFrame)
+        JFrame frame = new JFrame("Bank Balance Application");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Create a panel to hold all components
+        JPanel panel = new JPanel();
+        frame.add(panel);
+        placeComponents(panel);
+
+        // Set the window to be visible
+        frame.setVisible(true);
+    }
+
+    private static void placeComponents(JPanel panel) {
+        panel.setLayout(null);
+
+        // Balance label and text field
+        JLabel balanceLabel = new JLabel("Balance:");
+        balanceLabel.setBounds(10, 20, 80, 25);
+        panel.add(balanceLabel);
+
+        JTextField balanceField = new JTextField(20);
+        balanceField.setBounds(100, 20, 165, 25);
+        balanceField.setText(String.valueOf(balance));
+        balanceField.setEditable(false);
+        panel.add(balanceField);
+
+        // Deposit
+        JLabel depositLabel = new JLabel("Deposit:");
+        depositLabel.setBounds(10, 50, 80, 25);
+        panel.add(depositLabel);
+
+        JTextField depositField = new JTextField(20);
+        depositField.setBounds(100, 50, 165, 25);
+        panel.add(depositField);
+
+        JButton depositButton = new JButton("Deposit");
+        depositButton.setBounds(270, 50, 100, 25);
+        panel.add(depositButton);
+
+        // Withdraw
+        JLabel withdrawLabel = new JLabel("Withdraw:");
+        withdrawLabel.setBounds(10, 80, 80, 25);
+        panel.add(withdrawLabel);
+
+        JTextField withdrawField = new JTextField(20);
+        withdrawField.setBounds(100, 80, 165, 25);
+        panel.add(withdrawField);
+
+        JButton withdrawButton = new JButton("Withdraw");
+        withdrawButton.setBounds(270, 80, 100, 25);
+        panel.add(withdrawButton);
+
+        // Display Balance Button
+        JButton displayBalanceButton = new JButton("Display Balance");
+        displayBalanceButton.setBounds(100, 110, 165, 25);
+        panel.add(displayBalanceButton);
+
+        // Action Listeners
+        depositButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                double depositAmount = Double.parseDouble(depositField.getText());
+                balance += depositAmount;
+                balanceField.setText(String.valueOf(balance));
+            }
+        });
+
+        withdrawButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                double withdrawAmount = Double.parseDouble(withdrawField.getText());
+                if (balance >= withdrawAmount) {
+                    balance -= withdrawAmount;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Insufficient Funds");
+                }
+                balanceField.setText(String.valueOf(balance));
+            }
+        });
+
+        displayBalanceButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Current Balance: $" + balance);
+            }
+        });
+    }
+}
